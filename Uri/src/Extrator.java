@@ -24,37 +24,49 @@ public class Extrator {
 			while ((s = br.readLine()) != null) {
 
 				if (s.contains("<p itemprop=\"name\">")) {
+
 					String temp = br.readLine().split("</a>")[0];
 					s = temp.split("\">")[1];
-
 					usuario.setNome(s);
 				}
 				if (s.contains("<span>Place:</span>")) {
+
 					s = br.readLine().split("&ordm;")[0].trim();
+					if (s.contains("Unknown")) {
+						s= s.split("</li>")[0].trim();
+						usuario.setPosicao(s);
 
-					usuario.setPosicao(s);
+					} else
+						usuario.setPosicao(s);
+
 				} else if (s.contains("<span>Country:</span>")) {
+
 					String temp = br.readLine().split("</a>")[0];
-
 					s = temp.substring(temp.length() - 2);
-
+					if ("i>".equals(s))
+						s = "-";
 					usuario.setPais(s);
 
 				} else if (s.contains("<span>University:</span>")) {
-					// comparar com um nome de faculdade maior
 					String temp = br.readLine().split("</i>")[0];
 
 					s = temp.substring(temp.length() - 3);
+					if ("e'>".equals(s))
+						s = "";
 
 					usuario.setUniversidade(s);
 
 				} else if (s.contains("<span>Since:</span>")) {
 
 					String temp = br.readLine().split("</i>")[0].trim();
-
 					s = temp.substring(0, temp.length() - 5).trim();
-
 					usuario.setDesde(s);
+
+				} else if (s.contains("<span>Points:</span>")) {
+
+					String temp = br.readLine().split("</i>")[0].trim();
+					s = temp.substring(0, temp.length() - 5).trim();
+					usuario.setPontos(s);
 
 				} else if (s.contains("<span>Solved:</span>")) {
 
@@ -67,17 +79,13 @@ public class Extrator {
 				} else if (s.contains("<span>Tried:</span>")) {
 
 					String temp = br.readLine().split("</i>")[0].trim();
-
 					s = temp.substring(0, temp.length() - 5).trim();
-
 					usuario.setTestado(s);
 
 				} else if (s.contains("<span>Submissions:</span>")) {
 
 					String temp = br.readLine().split("</i>")[0].trim();
-
 					s = temp.substring(0, temp.length() - 5).trim();
-
 					usuario.setSubmissoes(s);
 
 				}
